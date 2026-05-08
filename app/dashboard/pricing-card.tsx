@@ -81,7 +81,7 @@ export default function PricingCard({ isPro }: PricingCardProps) {
             )}
           </div>
           <div className="mt-2 flex items-baseline gap-1">
-            <span className="text-3xl font-bold text-white">R$29</span>
+            <span className="text-3xl font-bold text-white">R$1</span>
             <span className="text-gray-400 text-sm">/mês</span>
           </div>
         </div>
