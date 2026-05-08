@@ -22,7 +22,8 @@ export async function POST(_request: NextRequest) {
           quantity: 1,
         },
       ],
-      success_url: `${appUrl}/success`,
+      locale: 'pt-BR',
+    success_url: `${appUrl}/success`,
       cancel_url: `${appUrl}/dashboard`,
       metadata: {
         userId: user.id,

@@ -19,6 +19,7 @@ function CheckIcon() {
 
 export default function PricingCard({ isPro }: PricingCardProps) {
   const [loading, setLoading] = useState(false)
+  const [portalLoading, setPortalLoading] = useState(false)
 
   async function handleSubscribe() {
     setLoading(true)
@@ -30,6 +31,19 @@ export default function PricingCard({ isPro }: PricingCardProps) {
       alert('Erro ao iniciar pagamento. Tente novamente.')
     } finally {
       setLoading(false)
+    }
+  }
+
+  async function handlePortal() {
+    setPortalLoading(true)
+    try {
+      const res = await fetch('/api/create-portal', { method: 'POST' })
+      const { url } = await res.json()
+      if (url) window.location.href = url
+    } catch {
+      alert('Erro ao abrir portal. Tente novamente.')
+    } finally {
+      setPortalLoading(false)
     }
   }
 
@@ -96,11 +110,20 @@ export default function PricingCard({ isPro }: PricingCardProps) {
         </ul>
 
         {isPro ? (
-          <div className="w-full py-2.5 rounded-lg bg-green-600/20 border border-green-500/30 flex items-center justify-center gap-2">
-            <svg className="w-4 h-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-            </svg>
-            <span className="text-green-400 text-sm font-semibold">Plano Pro ativado</span>
+          <div className="flex flex-col gap-2">
+            <div className="w-full py-2.5 rounded-lg bg-green-600/20 border border-green-500/30 flex items-center justify-center gap-2">
+              <svg className="w-4 h-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+              </svg>
+              <span className="text-green-400 text-sm font-semibold">Plano Pro ativado</span>
+            </div>
+            <button
+              onClick={handlePortal}
+              disabled={portalLoading}
+              className="w-full py-2 text-gray-400 hover:text-white text-xs transition-colors disabled:opacity-50"
+            >
+              {portalLoading ? 'Abrindo...' : 'Gerenciar / Cancelar assinatura'}
+            </button>
           </div>
         ) : (
           <button
