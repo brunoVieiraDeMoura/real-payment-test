@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server'
-import { stripe } from '@/lib/stripe'
+import { getStripe } from '@/lib/stripe'
 import { createClient } from '@/lib/supabase/server'
 
 export async function POST(_request: NextRequest) {
@@ -10,7 +10,7 @@ export async function POST(_request: NextRequest) {
     return new Response('Unauthorized', { status: 401 })
   }
 
-  const session = await stripe.checkout.sessions.create({
+  const session = await getStripe().checkout.sessions.create({
     mode: 'subscription',
     payment_method_types: ['card'],
     line_items: [
